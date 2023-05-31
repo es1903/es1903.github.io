@@ -1,5 +1,56 @@
 <html><head>
  <title>АДБ-21-09</title>
+ <style>
+  .btn {
+    border-radius: 4px;
+    border: solid 2px #4CAF50;
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 14px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 24vh;
+    justify-content: center;
+}
+
+ul{
+    width:300px;
+}
+ul * {
+    font-size: 18px;
+    animation-duration: 1s;
+    animation-name: slidein;
+}
+
+@keyframes slidein {
+    from {
+        margin-left: -50px;
+        opacity: 0;
+    }
+
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+ </style>
 </head>
 
 <body><h1><center>Привет всем!</center></h1>
@@ -8,6 +59,32 @@
 <hr>
 <font size="5" color="blue">Московский государственный технологический университет «Станкин» (МГТУ «Станкин») — российское машиностроительное высшее учебное заведение, основанное в 1930 году под названием Московский станкоинструментальный институт.</font>
 <img src="1666784761_74-mykaleidoscope-ru-p-malenkie-tsvetnie-tsvetochki-oboi-78.jpg">
-  
+  <div class="main">
+            <h2>JavaScript Confirm Box</h2>
+            <button class="btn" onclick="myFunction()">Try it</button>
+            <ul id="demo">
+
+            </ul>
+        </div>
+        <script>
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            function myFunction() {
+                (async () => {
+                    let response = await fetch('https://kav-api.kovalev.team/servodrive/lastActualData?servoDriveId=1');
+                    let el = document.getElementById('demo')
+                    el.innerHTML = ""
+                    let text = await response.text(); // прочитать тело ответа как текст
+                    for (const [key, value] of Object.entries(JSON.parse(text)[0])) {
+                        const newEl = document.createElement("li")
+                        newEl.appendChild(document.createTextNode(`${key}: ${value}`))
+                        el.appendChild(newEl)
+                        await sleep(100)
+                    }
+                })()
+            }
+        </script>
+
 
 </body></html>
